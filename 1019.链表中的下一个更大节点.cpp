@@ -17,21 +17,18 @@ class Solution {
 public:
     vector<int> nextLargerNodes(ListNode* head) {
         vector<int> val;
+        stack<pair<int, int>> st;
+        int index = 0;
         while (head)
         {
-            val.push_back(head->val);
-            head = head->next;
-        }
-        stack<int> st;
-        int temp;
-        for(int i = val.size() - 1;i>=0;i--) {
-            while (!st.empty() && val[i] >= st.top())
+            val.push_back(0);
+            while (!st.empty() && st.top().first < head->val)
             {
+                val[st.top().second] = head->val;
                 st.pop();
             }
-            temp = st.empty() ? 0 : st.top();
-            st.push(val[i]);
-            val[i] = temp;
+            st.push(make_pair(head->val, index++));
+            head = head->next;
         }
         return val;
     }
